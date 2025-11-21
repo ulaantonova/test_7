@@ -1,0 +1,33 @@
+name: Lab CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    # Визначає, на якій операційній системі буде виконуватися робота (віртуальна машина)
+    runs-on: ubuntu-latest
+
+    steps:
+      # Крок 1: Завантажує код репозиторію на віртуальну машину GitHub
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+      # Крок 2: Налаштовує середовище Node.js потрібної версії (20.x)
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+
+      # Крок 3: Встановлює всі залежності з package.json (включаючи Playwright та http-server)
+    - name: Install dependencies
+      run: npm install
+
+      # Крок 4: Запускає команду, визначену в package.json як "test"
+    - name: Run tests
+      run: npm test
